@@ -15,10 +15,14 @@
         }                            \
     } while (0)
 
+#define STR(x) #x
+#define XSTR(x) STR(x)
+
 
 /* FORWARD DECLARATIONS */
 void logError(const char *s);
-void perrorCustom(const char *s);
+void logWarn(const char *s);
+void logSysError(const char *s);
 
 
 #endif // LOGGER_H
