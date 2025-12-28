@@ -5,21 +5,20 @@
 #include<stdio.h>
 #include<string.h>
 #include<errno.h>
-#include<stdlib.h>
 
 /* MACRO FUNCTIONS */
-#define CHECK_NULL(ptr)              \
+#define CHECK_NULL(ptr, retval)              \
     do {                             \
         if ((ptr) == NULL) {         \
             logError(#ptr " is NULL"); \
-            return EXIT_FAILURE;               \
+            return (retval);               \
         }                            \
     } while (0)
 
 
 /* FORWARD DECLARATIONS */
-int logError(const char *s);
-int perrorCustom(const char *s);
+void logError(const char *s);
+void perrorCustom(const char *s);
 
 
 #endif // LOGGER_H
