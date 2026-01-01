@@ -3,7 +3,7 @@
 
 #include "logger.h"
 #include "entry.h"
-
+#include "dbiface.h"
 
 typedef enum {
     MENU_CONTINUE,
@@ -28,10 +28,26 @@ static InputResult readString(char *buff, size_t buffSize);
 int main(int argc, char **argv)
 {
     EntryBuffer buff;
+    int exitCode = EXIT_SUCCESS;
+
     if(initBuffer(&buff, 2) == BUFFER_FAILURE){
+        logError("entry buffer initialization failed");
         return EXIT_FAILURE;
     }
 
+    
+    if(initDbIface(DB_BACKEND_STDIO) == DB_FAILURE){
+        logError("dbiface initialization failed");
+        exitCode = EXIT_FAILURE;
+        goto cleanup;
+    }
+
+    if(populateBufferFromFile(&buff) == DB_FAILURE){
+        logError("populateBufferFromFile failed");
+        exitCode = EXIT_FAILURE;
+        goto cleanup;
+    }
+        
     int choice;
     MenuResult ret;
     while(1){
@@ -40,15 +56,28 @@ int main(int argc, char **argv)
             break;
         }
         ret = handleUserChoice(choice, &buff);
-        if(ret != MENU_CONTINUE){
+        if(ret == MENU_EXIT_REQUESTED){
+            break;
+        }
+        else if(ret == MENU_EXIT_FAILURE){
+            exitCode = EXIT_FAILURE;
             break;
         }
     }
 
+    if(writeBufferToFile(&buff) == DB_FAILURE){
+        logError("writeBufferFromFile failed");
+        exitCode = EXIT_FAILURE;
+        goto cleanup;
+    }
+
+    cleanup:
     if(freeBuffer(&buff) == BUFFER_FAILURE){
+        logError("freeBuffer failed");
         return EXIT_FAILURE;
     }
-    return ret == MENU_EXIT_FAILURE ? EXIT_FAILURE : EXIT_SUCCESS;
+
+    return exitCode;
 }
 
 
@@ -149,6 +178,20 @@ static InputResult readInt(int *out)
 
 static InputResult readString(char *buff, size_t buffSize)
 {
+
+    /*
+     * Maximum usable input length is (buffSize - 2).
+     *
+     * Reason:
+     *  - fgets() reads at most (buffSize - 1) characters and always appends '\0'
+     *  - For interactive input, the newline '\n' is included when the user presses Enter
+     *  - So the buffer layout becomes:
+     *        [usable characters][ '\n' ][ '\0' ]
+     *
+     * Therefore, at most (buffSize - 2) visible characters can be safely accepted.
+     */
+
+
     if(!fgets(buff, buffSize, stdin)){ 
         logError("[EOF] input stream closed");
         return INPUT_EOF;

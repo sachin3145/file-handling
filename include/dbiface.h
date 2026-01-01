@@ -3,6 +3,10 @@
 
 #include "entry.h"
 
+
+#define FILE_NAME "./data/appdata"
+
+
 typedef enum{
     DB_BACKEND_STDIO,
     DB_BACKEND_POSIX

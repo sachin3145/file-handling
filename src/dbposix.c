@@ -6,6 +6,6 @@ DbResult posixPopulateBufferFromFile(EntryBuffer *buff){
 }
 
 DbResult posixWriteBufferToFile(EntryBuffer *buff){
-
+    
     return DB_SUCCESS;
 }
