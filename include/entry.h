@@ -1,10 +1,7 @@
 #ifndef ENTRY_H
 #define ENTRY_H
 
-#include<stdlib.h>
-#include<stdio.h>
-#include "logger.h"
-
+#include<stddef.h>
 
 #define NAME_SIZE 32
 #define DEFAULT_BUFFER_SIZE 64

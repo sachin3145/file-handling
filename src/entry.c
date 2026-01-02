@@ -1,5 +1,12 @@
 #include "entry.h"
 
+#include<stdlib.h>
+#include<stdio.h>
+#include "logger.h"
+
+
+
+
 BufferResult initBuffer(EntryBuffer *buff, int initialCapacity)
 {
     CHECK_NULL(buff, BUFFER_FAILURE);

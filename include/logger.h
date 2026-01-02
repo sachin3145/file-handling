@@ -1,11 +1,6 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-/* INCLUDES */
-#include<stdio.h>
-#include<string.h>
-#include<errno.h>
-
 /* MACRO FUNCTIONS */
 #define CHECK_NULL(ptr, retval)              \
     do {                             \

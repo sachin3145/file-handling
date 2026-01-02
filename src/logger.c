@@ -1,5 +1,10 @@
 #include "logger.h"
 
+#include<stdio.h>
+#include<string.h>
+#include<errno.h>
+
+
 /*
 
 Currently logs to stderr using fprintf.

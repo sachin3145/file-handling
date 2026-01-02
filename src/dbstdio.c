@@ -1,5 +1,8 @@
 #include "dbstdio.h"
 
+#include <stdio.h>
+#include "logger.h"
+
 DbResult stdioPopulateBufferFromFile(EntryBuffer *buff){
 
     CHECK_NULL(buff, DB_FAILURE);
