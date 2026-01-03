@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     }
 
     
-    if(initDbIface(DB_BACKEND_STDIO) == DB_FAILURE){
+    if(initDbIface(DB_BACKEND_POSIX) == DB_FAILURE){
         logError("dbiface initialization failed");
         exitCode = EXIT_FAILURE;
         goto cleanup;
