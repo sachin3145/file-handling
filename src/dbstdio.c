@@ -21,7 +21,7 @@ DbResult stdioPopulateBufferFromFile(EntryBuffer *buff){
     int ret, id=0, marks=0;
     char name[NAME_SIZE]={0};
     while(1){
-        ret = fscanf(fp,"%d,%d,%31[^\n]", &id, &marks, name);
+        ret = fscanf(fp,"%d,%d,%[^\n]", &id, &marks, name);
 
         if(ret == 3){
             if(addEntry(buff, id, marks, name) == ENTRY_FAILURE){
